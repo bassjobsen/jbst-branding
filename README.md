@@ -23,7 +23,7 @@ Credits
 * [jQuery](http://www.jquery.com/)
 * [Less.js](http://www.lesscss.org/)
 * [less.php](http://lessphp.gpeasy.com/)
-* [Colors-Of-Image](https://github.com/humanmade/Colors-Of-Image)
+* [ImagePalette](https://github.com/bfoxwell/ImagePalette)
 * [Upload Files to WordPress Media Library Using PHP](http://cube3x.com/upload-files-to-wordpress-media-library-using-php/)‎
 * [Sort hex colors](https://gist.github.com/alexkingorg/2158428)‎
 

@@ -1,5 +1,7 @@
 <?php
-
+include('Bfoxwell/ImagePalette/ImagePalette.php');
+include('Bfoxwell/ImagePalette/Color.php');
+use  Bfoxwell\ImagePalette\ImagePalette;
 if (isset($_POST['SaveCBESettings']) || !empty($_FILES)) {
 		
 		/* upload the file first */
@@ -67,82 +69,18 @@ if (isset($_POST['SaveCBESettings']) || !empty($_FILES)) {
 					if($attach_id)
 					{
 						
-					include_once( 'colorsofimage.class.php' );
-					
-					$colors_of_image = new ColorsOfImage(get_attached_file( $attach_id ) );
-					$tmpcolors = cf_sort_hex_colors($colors_of_image->getProminentColors());
-					$color = array();
+					//include_once( 'colorsofimage.class.php' );
+					//$colors_of_image = new ColorsOfImage(get_attached_file( $attach_id ) );
+					//$tmpcolors = cf_sort_hex_colors($colors_of_image->getProminentColors());
+					$colors_of_image = new ImagePalette(get_attached_file( $attach_id ) );
+					$tmpcolors = cf_sort_hex_colors($colors_of_image->colors);
+					$colors = array();
 					foreach ($tmpcolors as $color)
 					{
 							$colors[]=$color;
 					}	
 					$this->customlesscode = '';
-					
-					if(count($colors)==1)
-					{		
-					$this->customlesscode .= '@headings-color: '.$colors[0].';';
-					$this->customlesscode .= '@navbar-default-color:             contrast(@navbar-default-bg);';
-					$this->customlesscode .= '@navbar-default-bg:               lighten('.$colors[0].', 30%);';
-					// Navbar links
-					$this->customlesscode .= '@navbar-default-link-color:                @navbar-default-color;';
-					
-					$this->customlesscode .= '@footer-bg-color: '.$colors[0].';';
-					$this->customlesscode .= '@footer-text-color:            contrast(@footer-bg-color);';
-					}
-					if(count($colors)==2)
-					{		
-					$this->customlesscode .= '@headings-color: '.$colors[1].';';
-					$this->customlesscode .= '@navbar-default-color:             contrast(@navbar-default-bg);';
-					$this->customlesscode .= '@navbar-default-bg:                 '.$colors[1].';';
-					// Navbar links
-					$this->customlesscode .= '@navbar-default-link-color:                @navbar-default-color;';
-					
-					$this->customlesscode .= '@footer-bg-color: '.$colors[0].';';
-					$this->customlesscode .= '@footer-text-color:            contrast(@footer-bg-color);';
-					}
-					elseif(count($colors)==3)
-					{
-						$this->customlesscode .= '@text-color:            contrast(@body-bg,'.$colors[0].',#fff);';
-						$this->customlesscode .= '@link-color:            contrast(@body-bg,'.$colors[2].',#fff);';
-						
-						$this->customlesscode .= '@headings-color:         '.$colors[1].';';
-						
-						$this->customlesscode .= '@navbar-default-color:             contrast(@navbar-default-bg,'.$colors[2].',#fff);';
-						$this->customlesscode .= '@navbar-default-bg:                '.$colors[1].';';
 
-						// Navbar links
-						$this->customlesscode .= '@navbar-default-link-color:                @navbar-default-color;';
-						$this->customlesscode .= '@navbar-default-link-active-color:        '.$colors[0].';';
-		
-						
-						$this->customlesscode .= '@footer-bg-color:               '.$colors[0].';';
-						$this->customlesscode .= '@footer-text-color:            contrast(@footer-bg-color);';
-						$this->customlesscode .= '@footer-link-color:               '.$colors[2].';';
-						
-					}
-					
-					elseif(count($colors)==4)
-					{
-						$this->customlesscode .= '@text-color:            contrast(@body-bg,'.$colors[0].',#fff);';
-						$this->customlesscode .= '@link-color:               '.$colors[2].';';
-						
-						$this->customlesscode .= '@headings-color:         '.$colors[1].';';
-						
-						$this->customlesscode .= '@navbar-default-color:           contrast(@navbar-default-bg,#000,'.$colors[3].');';
-						$this->customlesscode .= '@navbar-default-bg:                '.$colors[1].';';
-
-						// Navbar links
-						$this->customlesscode .= '@navbar-default-link-color:                @navbar-default-color;';
-						$this->customlesscode .= '@navbar-default-link-active-color:        '.$colors[0].';';
-		
-						
-						$this->customlesscode .= '@footer-bg-color:               '.$colors[0].';';
-						$this->customlesscode .= '@footer-text-color:            contrast(@footer-bg-color);';
-						$this->customlesscode .= '@footer-link-color:               '.$colors[2].';';
-						
-					}
-					elseif(count($colors)==5)
-					{
 						$this->customlesscode .= '@body-bg:               '.$colors[4].';';
 						$this->customlesscode .= '@text-color:            contrast(@body-bg,'.$colors[0].',#fff);';
 						$this->customlesscode .= '@link-color:               '.$colors[2].';';
@@ -167,7 +105,7 @@ if (isset($_POST['SaveCBESettings']) || !empty($_FILES)) {
 						$this->customlesscode .= '@footer-text-color:            contrast(@footer-bg-color,#000,'.$colors[4].');';
 						$this->customlesscode .= '@footer-link-color:               '.$colors[2].';';
 						
-					}	
+		
 					
 					$this->customlesscode .= 'footer#colophon {h1, h2, h3, h4, h5, h6,
 					.h1, .h2, .h3, .h4, .h5, .h6 { color: @footer-text-color}} ';
@@ -211,10 +149,10 @@ echo '<div class="wrap">'."\n";
 			<?php
 					
 				
-					include_once( 'colorsofimage.class.php' );
+					//include_once( 'colorsofimage.class.php' );
 					
-					$colors_of_image = new ColorsOfImage(get_attached_file( $attach_id ) );
-					$colors = $colors_of_image->getProminentColors();
+					$colors_of_image = new ImagePalette(get_attached_file( $attach_id ) );
+					$colors = $colors_of_image->colors;
 					?>
 
 					Colors of Image:<br>

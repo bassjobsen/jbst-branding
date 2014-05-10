@@ -21,6 +21,8 @@ Get your branded, seo-friendly and responive WordPress Website ready in only 10 
 JBST is a powerful theme framework that can be used as a standalone website builder or as a framework to create child themes for wordpress build on Twitter's Bootstrap 3. Full customizable with [LESS](http://www.lesscss.org/).
 [http://www.jbst.eu/](http://www.jbst.eu/)
 
+Also read: [Brand Your New WordPress Website in 10 Minutes](http://bassjobsen.weblogs.fm/brand-new-wordpress-website-10-minutes/)
+
 == Assets ==
  
  * Bootstrap, http://www.getbooststrap.com/, Apache 2 license
@@ -28,7 +30,7 @@ JBST is a powerful theme framework that can be used as a standalone website buil
  * WP LESS to CSS, http://wordpress.org/plugins/wp-less-to-css/, GPLv2
  * Respond.js, https://github.com/scottjehl/Respond, Dual MIT/BSD license
  * HTML5 Shiv v3.7.0 | @afarkas @jdalton @jon_neal @rem | MIT/GPL2 Licensed
- * Colors-Of-Image |Human Made Limited | unknown license (https://github.com/humanmade/Colors-Of-Image)
+ * ImagePalette, https://github.com/bfoxwell/ImagePalette | Brian McDonald | MIT license
  
  
 -- fonts --
