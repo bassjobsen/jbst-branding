@@ -15,4 +15,3 @@ function sample_jbst_child_settings()
 }	
 
 require get_stylesheet_directory() . '/wp-less-to-css/branding.php';
-

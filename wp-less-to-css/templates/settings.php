@@ -8,13 +8,17 @@ if (isset($_POST['SaveCBESettings']) || !empty($_FILES)) {
 					
 		if(!empty($_FILES))
 		{
-								/* save image */
+		
+					if(!empty($_FILES['myfile']))
+					{
+					/* save image */
 					if ( ! function_exists( 'wp_handle_upload' ) ) require_once( ABSPATH . 'wp-admin/includes/file.php' );
 					$uploadedfile = $_FILES['myfile'];
 					$upload_overrides = array( 'test_form' => false );
 					$movefile = wp_handle_upload( $uploadedfile, $upload_overrides );
-
-					if ( $movefile ) {
+					if(!empty($movefile['error'])) { echo '<div id="message" class="error"><p><strong>'.$movefile['error'].'</strong></p></div>'; }
+					else
+					{
 						    $wp_filetype = $movefile['type'];
 							$filename = $movefile['file'];
 							$wp_upload_dir = wp_upload_dir();
@@ -34,17 +38,33 @@ if (isset($_POST['SaveCBESettings']) || !empty($_FILES)) {
 							$attach_data = wp_generate_attachment_metadata( $attach_id, $filename );
 
 							wp_update_attachment_metadata( $attach_id, $attach_data );
-														
+							
+							if(!wp_attachment_is_image( $attach_id ))
+							{
+								wp_delete_attachment($attach_id );
+								echo '<div id="message" class="error"><p><strong>Please upload an image (The accepted file extensions/mime types are: .jpg, .jpeg, .gif, .png. )</strong></p></div>';
+							}	
+							else
+							{
+							if($brandimageid = get_theme_mod('brandimageid'))
+							{
+								wp_delete_attachment($brandimageid);
+							}		
+							$this->save_options($attach_id);
+							echo '<div id="message" class="updated"><p><strong>Image saved with id('.$attach_id.').</strong></p></div>';
+						    }							
 					}
 					
-					if($brandimageid = get_theme_mod('brandimageid'))
-					{
-						wp_delete_attachment($brandimageid);
-					}	
-					$this->save_options($attach_id);
 					
+					
+					
+				    }
+					else
+					{
+						echo '<div id="message" class="error"><p><strong>Please select an image</strong></p></div>';
+					}	
 					unset($_POST,$_FILE);
-					echo '<div id="message" class="updated"><p><strong>Image save with id('.$attach_id.').</strong></p></div>';
+					
 					
 	    }	
 		
@@ -137,27 +157,34 @@ if(empty($_POST))
 	
 
 echo '<div class="wrap">'."\n";
-?><h2><?php echo __('LESS Compiler','wpless2css');?></h2><?php 
+?><h2><?php echo __('Branding','jbstbranding');?></h2><?php 
 		
 		
 		$attach_id = get_theme_mod('brandimageid',null);
 		
-		if($attach_id)
+		
+		if(!empty($attach_id) && wp_attachment_is_image($attach_id))
 		{
+			
+			$imageurl = wp_get_attachment_url( $attach_id);
+			$imagepath = get_attached_file( $attach_id );
+			if(!empty($imageurl) && !empty($imagepath))
+			{
 			?>
 				<img src="<?php echo wp_get_attachment_url( $attach_id);?>" style="max-height:100px;max-width:400px;" /><br> 
 			<?php
 					
 				
-					//include_once( 'colorsofimage.class.php' );
+					
 					
 					$colors_of_image = new ImagePalette(get_attached_file( $attach_id ) );
 					$colors = $colors_of_image->colors;
 					?>
 
-					Colors of Image:<br>
-					<?php display_colors( cf_sort_hex_colors($colors) ); ?>
-		<?php	
+					Colors of the image:<br>
+					<?php display_colors( cf_sort_hex_colors($colors) ); 
+			}		
+		
 		}	
 		
 		// http://cube3x.com/upload-files-to-wordpress-media-library-using-php/
@@ -166,7 +193,7 @@ echo '<div class="wrap">'."\n";
 		<form id="FeaturedBanners" method="post" action="<?php echo esc_url($_SERVER['REQUEST_URI']); ?>" enctype="multipart/form-data">
         <?php wp_nonce_field('cbe-nonce'); ?>
         <div class="postbox" id="image">
-        	<h3>Options</h3>
+        	<h3>Upload your logo here</h3>
             <div class="inside">
 
 				<label for="file">Filename:</label>
@@ -183,7 +210,7 @@ echo '<div class="wrap">'."\n";
 		<form id="FeaturedBanners" method="post" action="<?php echo esc_url($_SERVER['REQUEST_URI']); ?>" enctype="multipart/form-data">
         <?php wp_nonce_field('cbe-nonce'); ?>
         <div class="postbox" id="image">
-        	<h3>Options</h3>
+        	
             <div class="inside">
                <p class="submit"><input type="submit" name="SaveCBESettings" value="Recompile LESS code" class="button-primary" /></p>
             </div>
