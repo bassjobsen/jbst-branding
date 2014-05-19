@@ -4,8 +4,8 @@
 YOU CAN BUILD IN YOUR OWN CUSTOM FUNCTIONALITY HERE
 ==========================================================
 */
-add_action('jbst_child_settings','sample_jbst_child_settings');
-function sample_jbst_child_settings()
+add_action('jbst_child_settings','jbst_branding_child_settings');
+function jbst_branding_child_settings()
 {
 	/* set default logo */
 	if(!defined('logo_image_position'))define('logo_image_position','outside-nav');
@@ -15,3 +15,4 @@ function sample_jbst_child_settings()
 }	
 
 require get_stylesheet_directory() . '/wp-less-to-css/branding.php';
+
